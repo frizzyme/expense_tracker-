@@ -8,13 +8,10 @@ const savingsElement = document.querySelector("#savings")
 const historyElements = document.querySelector(".history")
 
 let ledger = [];
-let savings = 0;
-let accum_income = 0;
-let accum_expense = 0;
-let HTMLResult = '';
 
 updateTransactionsElements.addEventListener("submit", (event) => {
     event.preventDefault();
+
 
     let transactionObject = {
         value: transactionAmount.value,
@@ -33,49 +30,47 @@ updateTransactionsElements.addEventListener("submit", (event) => {
 });
 
 function refreshSavings(ledger) {
+    accum = 0
     for (let i = 0; i < ledger.length; i++) {
       let integer = parseInt(ledger[i].value, 10)
-      savingsElement += integer;
+      accum += integer;
     }
-    savingsElement.innerHTML = savings;
+    savingsElement.innerHTML = accum;
 }
 
 function transactionUpdate(ledger) {
-  for (let i = 0; i < ledger.length; i++) {
-    let integer = parseInt(ledger[i].value, 10)
-    if (integer >= 0) {
-      accum_income += integer
-      incomeElement.innerHTML = accum_income
-    } else {
-      accum_expense += Math.abs(integer)
-      expenseElement.innerHTML = accum_expense
-    }
-  }   
+    accum_income = 0
+    accum_expense = 0 
+    for (let i = 0; i < ledger.length; i++) {
+      let currentAmount = parseInt(ledger[i].value, 10)
+      if (currentAmount >= 0) {
+        accum_income += currentAmount
+      } else {
+        accum_expense += Math.abs(currentAmount)
+      }
+    }   
+    incomeElement.innerHTML = accum_income
+    expenseElement.innerHTML = accum_expense
 }
 
 function historyHTML (ledger) {
-  for (let unit in ledger) {
-    HTMLResult = HTMLResult + `
-      <p>${ledger[unit].comment} - ${ledger[unit].value}</p>
-      <button onclick="deleteTransaction(${unit})">Delete</button>
-      `
-      console.log(unit)
-      historyElements.innerHTML = HTMLResult
+  let transactionListHtml = '';
+
+  for (let indexOfTransaction in ledger) {
+    transactionListHtml = transactionListHtml + `
+      <p>${ledger[indexOfTransaction].comment} - ${ledger[indexOfTransaction].value}</p>
+      <button onclick="deleteTransaction(${indexOfTransaction})">Delete</button>
+    `;
+    console.log(indexOfTransaction);
   }
+  historyElements.innerHTML = transactionListHtml;
 }
 
-function deleteTransaction(transactionId) {
-  if (ledger.length > 1) {
-    ledger.splice(transactionId, 1)
-    console.log(ledger)
-    transactionUpdate(ledger)
-    historyHTML (ledger)
-    refreshSavings(ledger)
-  } else {
-    let savings = 0;
-    let accum_expense = 0;
-    let accum_income = 0;
-    let HTMLResult = "";
-  }
+function deleteTransaction(indexOfTransaction) {
+  ledger.splice(indexOfTransaction, 1)
+  console.log(ledger)
+  transactionUpdate(ledger)
+  historyHTML (ledger)
+  refreshSavings(ledger)
 }
 
