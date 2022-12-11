@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+</head>
+<body>
+    <header>
+        <h1>My expenses </h1>
+    </header>
+    <section>
+        <div>
+            <p>Your savings</p>
+            <p id="savings"></p>
+        </div>
+        <div>
+            <p>Income: </p>
+            <p id="income"></p>
+            <p>Expense: </p>
+            <p id="expense"></p>
+        </div>
+        <div>
+            <p>History</p>
+            <div class="history"></div>
+        </div>
+
+    </section>
+    <form id="updateTransactions" novalidate>
+        <h2>New transaction</h2>
+        <h3>Concept</h3>
+        <input id="concept" type="text" placeholder="Concept" />
+        <h3>Transaction</h3>
+        <p>negative amount - expense, positive amount - income</p>
+        <input id="transaction" type="text" placeholder="Transaction" />
+        <hr>
+        <button type="submit" id="update">Add transaction</button>
+      </form>
+  
+  
+    <script src="./app.js"></script>
+</body>
+</html>
